@@ -1,0 +1,298 @@
+[
+  {
+    "id": "avocado-toast",
+    "name": "Avocado Toast",
+    "cuisine": "American",
+    "mealType": "Breakfast",
+    "difficulty": "Easy",
+    "prepTime": 10,
+    "cookTime": 20,
+    "servings": 2,
+    "description": "Crispy sourdough topped with creamy mashed avocado and fresh cherry tomatoes.",
+    "ingredients": [
+      "2 slices sourdough bread",
+      "1 ripe avocado",
+      "6 cherry tomatoes",
+      "salt",
+      "pepper",
+      "lemon juice"
+    ],
+    "instructions": [
+      "Toast the bread slices until golden and crisp.",
+      "Cut the avocado in half, remove the pit, and scoop the flesh into a bowl.",
+      "Add a teaspoon of lemon juice, a pinch of salt, and black pepper.",
+      "Mash until creamy but slightly chunky.",
+      "Spread the avocado mixture evenly over the toast.",
+      "Slice the cherry tomatoes and arrange on top.",
+      "Add extra pepper and serve immediately."
+    ],
+    "image": "/images/recipe-1.png"
+  },
+  {
+    "id": "masala-dosa",
+    "name": "Masala Dosa",
+    "cuisine": "Indian",
+    "mealType": "Breakfast",
+    "difficulty": "Medium",
+    "prepTime": 15,
+    "cookTime": 25,
+    "servings": 3,
+    "description": "A South Indian classic — crisp fermented crepe filled with spiced potato masala.",
+    "ingredients": [
+      "Dosa batter",
+      "3 potatoes",
+      "1 onion",
+      "mustard seeds",
+      "curry leaves",
+      "turmeric"
+    ],
+    "instructions": [
+      "Boil and mash the potatoes.",
+      "Heat oil and add mustard seeds until they crackle.",
+      "Add curry leaves and sliced onions; sauté until soft.",
+      "Add turmeric and mashed potatoes; mix well.",
+      "Heat a dosa griddle and spread batter into a thin circle.",
+      "Cook until crisp and golden.",
+      "Place potato filling in the center.",
+      "Fold the dosa and serve with chutney and sambar."
+    ],
+    "image": "/images/recipe-2.png"
+  },
+  {
+    "id": "shakshuka",
+    "name": "Shakshuka",
+    "cuisine": "Middle Eastern",
+    "mealType": "Breakfast",
+    "difficulty": "Hard",
+    "prepTime": 20,
+    "cookTime": 30,
+    "servings": 4,
+    "description": "Eggs poached in a rich, spiced tomato and pepper sauce. Perfect for brunch.",
+    "ingredients": [
+      "4 eggs",
+      "4 tomatoes",
+      "1 onion",
+      "2 garlic cloves",
+      "paprika",
+      "olive oil"
+    ],
+    "instructions": [
+      "Heat olive oil in a skillet.",
+      "Sauté chopped onion until translucent.",
+      "Add minced garlic and cook for 1 minute.",
+      "Add chopped tomatoes and paprika.",
+      "Simmer for 10–15 minutes until thick.",
+      "Make four small wells in the sauce.",
+      "Crack an egg into each well.",
+      "Cover and cook until the egg whites are set.",
+      "Serve with crusty bread."
+    ],
+    "image": "/images/recipe-3.png"
+  },
+  {
+    "id": "chicken-tikka-bowl",
+    "name": "Chicken Tikka Bowl",
+    "cuisine": "Indian",
+    "mealType": "Lunch",
+    "difficulty": "Easy",
+    "prepTime": 25,
+    "cookTime": 35,
+    "servings": 6,
+    "description": "Tender spiced chicken tikka served over fragrant rice with fresh vegetables.",
+    "ingredients": [
+      "Chicken tikka",
+      "rice",
+      "cucumber",
+      "onion",
+      "yogurt",
+      "coriander"
+    ],
+    "instructions": [
+      "Marinate chicken in yogurt and spices.",
+      "Grill or bake until fully cooked.",
+      "Cook rice according to package instructions.",
+      "Slice cucumber and onion.",
+      "Arrange rice in a serving bowl.",
+      "Add grilled chicken on top.",
+      "Add vegetables around the bowl.",
+      "Garnish with coriander and serve."
+    ],
+    "image": "/images/recipe-4.png"
+  },
+  {
+    "id": "veggie-buddha-bowl",
+    "name": "Veggie Buddha Bowl",
+    "cuisine": "International",
+    "mealType": "Lunch",
+    "difficulty": "Medium",
+    "prepTime": 30,
+    "cookTime": 45,
+    "servings": 2,
+    "description": "A nourishing bowl of quinoa, roasted vegetables, chickpeas, and creamy avocado.",
+    "ingredients": [
+      "Quinoa",
+      "chickpeas",
+      "avocado",
+      "carrots",
+      "broccoli",
+      "dressing"
+    ],
+    "instructions": [
+      "Cook quinoa and allow it to cool slightly.",
+      "Roast broccoli and carrots until tender.",
+      "Drain and season chickpeas.",
+      "Slice avocado.",
+      "Place quinoa in the bowl as the base.",
+      "Arrange vegetables and chickpeas in sections.",
+      "Add avocado slices.",
+      "Drizzle dressing before serving."
+    ],
+    "image": "/images/recipe-5.png"
+  },
+  {
+    "id": "thai-green-curry",
+    "name": "Thai Green Curry",
+    "cuisine": "Thai",
+    "mealType": "Lunch",
+    "difficulty": "Hard",
+    "prepTime": 35,
+    "cookTime": 10,
+    "servings": 3,
+    "description": "A fragrant coconut curry with vegetables and your choice of tofu or chicken.",
+    "ingredients": [
+      "Green curry paste",
+      "coconut milk",
+      "vegetables",
+      "tofu or chicken"
+    ],
+    "instructions": [
+      "Heat a pan and fry green curry paste for 1 minute.",
+      "Add coconut milk and stir until smooth.",
+      "Add sliced vegetables.",
+      "Add tofu or chicken.",
+      "Simmer for 15–20 minutes.",
+      "Adjust seasoning if needed.",
+      "Serve hot with steamed rice."
+    ],
+    "image": "/images/recipe-6.png"
+  },
+  {
+    "id": "grilled-salmon",
+    "name": "Grilled Salmon",
+    "cuisine": "Nordic",
+    "mealType": "Dinner",
+    "difficulty": "Easy",
+    "prepTime": 40,
+    "cookTime": 15,
+    "servings": 4,
+    "description": "Perfectly grilled salmon with Nordic-inspired herbs and a light citrus finish.",
+    "ingredients": [
+      "Salmon fillet",
+      "lemon",
+      "olive oil",
+      "herbs",
+      "vegetables"
+    ],
+    "instructions": [
+      "Pat the salmon dry.",
+      "Rub with olive oil, herbs, salt, and pepper.",
+      "Preheat grill to medium-high heat.",
+      "Grill salmon skin-side down for 4–5 minutes.",
+      "Flip carefully and cook until flaky.",
+      "Roast or steam vegetables.",
+      "Serve salmon with vegetables and lemon wedges."
+    ],
+    "image": "/images/recipe-7.png"
+  },
+  {
+    "id": "paneer-butter-masala",
+    "name": "Paneer Butter Masala",
+    "cuisine": "Indian",
+    "mealType": "Dinner",
+    "difficulty": "Medium",
+    "prepTime": 10,
+    "cookTime": 20,
+    "servings": 6,
+    "description": "Rich and creamy tomato-based curry with soft paneer cubes and warm spices.",
+    "ingredients": [
+      "Paneer",
+      "tomatoes",
+      "butter",
+      "cream",
+      "onion",
+      "spices"
+    ],
+    "instructions": [
+      "Sauté onions and tomatoes until soft.",
+      "Blend into a smooth puree.",
+      "Heat butter in a pan.",
+      "Add spices and cook briefly.",
+      "Pour in the puree and simmer.",
+      "Add cream and mix well.",
+      "Add paneer cubes.",
+      "Simmer for 5–7 minutes.",
+      "Serve with naan or rice."
+    ],
+    "image": "/images/recipe-8.png"
+  },
+  {
+    "id": "vegetable-stir-fry",
+    "name": "Vegetable Stir Fry",
+    "cuisine": "Chinese",
+    "mealType": "Dinner",
+    "difficulty": "Hard",
+    "prepTime": 15,
+    "cookTime": 25,
+    "servings": 2,
+    "description": "Quick and colorful wok-tossed vegetables in a savory garlic-ginger sauce.",
+    "ingredients": [
+      "Broccoli",
+      "bell peppers",
+      "carrots",
+      "soy sauce",
+      "garlic",
+      "oil"
+    ],
+    "instructions": [
+      "Heat oil in a wok.",
+      "Add minced garlic and stir-fry briefly.",
+      "Add carrots and cook for 2 minutes.",
+      "Add broccoli and bell peppers.",
+      "Stir-fry over high heat.",
+      "Add soy sauce.",
+      "Toss until vegetables are tender-crisp.",
+      "Serve immediately."
+    ],
+    "image": "/images/recipe-9.png"
+  },
+  {
+    "id": "chocolate-chip-cookies",
+    "name": "Chocolate Chip Cookies",
+    "cuisine": "American",
+    "mealType": "Dessert",
+    "difficulty": "Easy",
+    "prepTime": 20,
+    "cookTime": 30,
+    "servings": 3,
+    "description": "Classic chewy cookies loaded with melty chocolate chips — always a crowd pleaser.",
+    "ingredients": [
+      "Flour",
+      "butter",
+      "sugar",
+      "egg",
+      "vanilla",
+      "chocolate chips"
+    ],
+    "instructions": [
+      "Preheat oven to 180°C (350°F).",
+      "Cream butter and sugar until fluffy.",
+      "Add egg and vanilla extract.",
+      "Mix in flour until combined.",
+      "Fold in chocolate chips.",
+      "Scoop dough onto a baking tray.",
+      "Bake for 10–12 minutes.",
+      "Cool on a rack before serving."
+    ],
+    "image": "/images/recipe-10.png"
+  }
+]

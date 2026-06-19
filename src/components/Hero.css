@@ -1,0 +1,145 @@
+.hero {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 2rem;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding: 2rem;
+  border-radius: calc(var(--radius-lg) + 4px);
+  background:
+    radial-gradient(circle at top right, rgba(247, 164, 90, 0.18), transparent 42%),
+    linear-gradient(135deg, var(--color-beige), rgba(255, 255, 245, 0.9));
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+}
+
+.hero__eyebrow {
+  margin: 0 0 0.5rem;
+  color: var(--color-olive);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.hero h1 {
+  margin: 0 0 0.75rem;
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1.1;
+}
+
+.hero__text {
+  margin: 0;
+  color: var(--color-muted);
+  max-width: 34rem;
+  font-size: 1.02rem;
+}
+
+.hero__stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.hero__stats div {
+  min-width: 7rem;
+  padding: 0.85rem 1rem;
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 245, 0.82);
+  border: 1px solid rgba(107, 142, 35, 0.12);
+}
+
+.hero__stats strong {
+  display: block;
+  font-family: var(--font-heading);
+  font-size: 1.2rem;
+}
+
+.hero__stats span {
+  color: var(--color-muted);
+  font-size: 0.85rem;
+}
+
+.hero__visual {
+  position: relative;
+  min-height: 280px;
+}
+
+.hero__card {
+  position: absolute;
+  width: min(100%, 240px);
+  border-radius: var(--radius-lg);
+  background: var(--color-white);
+  box-shadow: var(--shadow-hover);
+}
+
+.hero__card--front {
+  top: 1rem;
+  right: 0;
+  z-index: 2;
+  transform: rotate(4deg);
+  overflow: hidden;
+}
+
+.hero__card--back {
+  left: 0;
+  bottom: 0;
+  z-index: 1;
+  transform: rotate(-6deg);
+  padding: 1rem;
+  background: var(--color-beige);
+}
+
+.hero__card-image {
+  height: 140px;
+  background:
+    linear-gradient(180deg, rgba(0, 0, 0, 0.04), rgba(0, 0, 0, 0.12)),
+    linear-gradient(135deg, #d4c4a8, #8b9a6b);
+}
+
+.hero__card-body {
+  padding: 0.9rem 1rem 1rem;
+}
+
+.hero__card-body strong {
+  display: block;
+  font-family: var(--font-heading);
+}
+
+.hero__card-body span {
+  color: var(--color-muted);
+  font-size: 0.85rem;
+}
+
+.hero__card--back span {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-family: var(--font-heading);
+  font-weight: 700;
+}
+
+.hero__card--back ul {
+  margin: 0;
+  padding-left: 1rem;
+  color: var(--color-muted);
+  font-size: 0.9rem;
+}
+
+@media (max-width: 900px) {
+  .hero {
+    grid-template-columns: 1fr;
+    padding: 1.5rem;
+  }
+
+  .hero__visual {
+    min-height: 220px;
+  }
+}
+
+@media (max-width: 520px) {
+  .hero__visual {
+    display: none;
+  }
+}

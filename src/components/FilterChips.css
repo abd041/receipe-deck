@@ -1,0 +1,28 @@
+.filter-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.85rem;
+}
+
+.filter-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 0.75rem;
+  border-radius: 999px;
+  background: var(--color-olive);
+  color: var(--color-white);
+  font-size: 0.82rem;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+
+.filter-chip:hover {
+  background: var(--color-olive-dark);
+}
+
+.filter-chip span {
+  font-size: 1rem;
+  line-height: 1;
+}

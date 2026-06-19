@@ -1,0 +1,26 @@
+.site-footer {
+  margin-top: auto;
+  border-top: 1px solid rgba(107, 142, 35, 0.12);
+  background: rgba(242, 232, 213, 0.45);
+}
+
+.site-footer__inner {
+  width: min(100% - 2rem, var(--max-width));
+  margin: 0 auto;
+  padding: 1.25rem 0 1.75rem;
+  text-align: center;
+}
+
+.site-footer p {
+  margin: 0;
+}
+
+.site-footer strong {
+  font-family: var(--font-heading);
+}
+
+.site-footer__note {
+  margin-top: 0.35rem !important;
+  color: var(--color-muted);
+  font-size: 0.85rem;
+}

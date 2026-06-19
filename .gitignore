@@ -1,0 +1,6 @@
+node_modules
+dist
+.DS_Store
+*.local
+prd_section_*.png
+*_preview.png

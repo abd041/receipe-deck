@@ -22,10 +22,11 @@
 
 .home-page__browse {
   position: relative;
-  z-index: 1;
+  z-index: 20;
   width: 97%;
   margin-left: 1.5%;
   margin-bottom: 3.5rem;
+  overflow: visible;
 }
 
 .home-page__grid-wrap {

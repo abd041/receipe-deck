@@ -5,6 +5,10 @@
   gap: 0.5rem;
 }
 
+.premium-dropdown.is-open {
+  z-index: 2;
+}
+
 .premium-dropdown__label {
   display: inline-flex;
   align-items: center;
@@ -137,6 +141,21 @@
   visibility: visible;
   transform: translate3d(0, 0, 0) scale(1);
   pointer-events: auto;
+}
+
+.premium-dropdown__menu.is-portal {
+  position: fixed;
+  top: auto;
+  right: auto;
+  z-index: 150;
+  opacity: 1;
+  visibility: visible;
+  transform: translate3d(0, 0, 0) scale(1);
+  pointer-events: auto;
+}
+
+.premium-dropdown__menu.is-portal ul {
+  max-height: var(--menu-max-height, 240px);
 }
 
 .premium-dropdown__menu ul {

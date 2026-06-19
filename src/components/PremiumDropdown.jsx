@@ -1,4 +1,5 @@
-import { useEffect, useId, useRef, useState } from 'react';
+import { useCallback, useEffect, useId, useLayoutEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import './PremiumDropdown.css';
 
 export default function PremiumDropdown({
@@ -12,8 +13,10 @@ export default function PremiumDropdown({
 }) {
   const [open, setOpen] = useState(false);
   const [highlight, setHighlight] = useState(-1);
+  const [menuPosition, setMenuPosition] = useState(null);
   const rootRef = useRef(null);
   const triggerRef = useRef(null);
+  const menuRef = useRef(null);
   const listId = useId();
 
   const items = [
@@ -24,16 +27,68 @@ export default function PremiumDropdown({
   const selectedLabel =
     items.find((item) => item.value === String(value))?.label ?? placeholder;
 
+  const updateMenuPosition = useCallback(() => {
+    const trigger = triggerRef.current;
+    if (!trigger) return;
+
+    const rect = trigger.getBoundingClientRect();
+    const viewportPadding = 12;
+    const gap = 6;
+    const availableBelow = window.innerHeight - rect.bottom - viewportPadding;
+    const availableAbove = rect.top - viewportPadding;
+    const openUpward = availableBelow < 180 && availableAbove > availableBelow;
+    const maxHeight = Math.min(240, openUpward ? availableAbove - gap : availableBelow - gap);
+    const width = Math.min(rect.width, window.innerWidth - viewportPadding * 2);
+    const left = Math.min(
+      Math.max(viewportPadding, rect.left),
+      window.innerWidth - width - viewportPadding
+    );
+
+    setMenuPosition({
+      ...(openUpward
+        ? { bottom: window.innerHeight - rect.top + gap }
+        : { top: rect.bottom + gap }),
+      left,
+      width,
+      maxHeight: Math.max(120, maxHeight),
+      placement: openUpward ? 'top' : 'bottom',
+    });
+  }, []);
+
+  useLayoutEffect(() => {
+    if (!open) {
+      setMenuPosition(null);
+      return;
+    }
+
+    updateMenuPosition();
+  }, [open, updateMenuPosition]);
+
   useEffect(() => {
     if (!open) return undefined;
 
-    const onPointerDown = (e) => {
-      if (!rootRef.current?.contains(e.target)) setOpen(false);
+    const onPointerDown = (event) => {
+      if (
+        rootRef.current?.contains(event.target) ||
+        menuRef.current?.contains(event.target)
+      ) {
+        return;
+      }
+      setOpen(false);
     };
 
+    const onViewportChange = () => updateMenuPosition();
+
     document.addEventListener('pointerdown', onPointerDown);
-    return () => document.removeEventListener('pointerdown', onPointerDown);
-  }, [open]);
+    window.addEventListener('resize', onViewportChange);
+    window.addEventListener('scroll', onViewportChange, true);
+
+    return () => {
+      document.removeEventListener('pointerdown', onPointerDown);
+      window.removeEventListener('resize', onViewportChange);
+      window.removeEventListener('scroll', onViewportChange, true);
+    };
+  }, [open, updateMenuPosition]);
 
   useEffect(() => {
     if (!open) setHighlight(-1);
@@ -44,15 +99,15 @@ export default function PremiumDropdown({
     setOpen(false);
   };
 
-  const onKeyDown = (e) => {
-    if (e.key === 'Escape') {
+  const onKeyDown = (event) => {
+    if (event.key === 'Escape') {
       setOpen(false);
       triggerRef.current?.focus();
       return;
     }
 
-    if (!open && (e.key === 'Enter' || e.key === ' ' || e.key === 'ArrowDown')) {
-      e.preventDefault();
+    if (!open && (event.key === 'Enter' || event.key === ' ' || event.key === 'ArrowDown')) {
+      event.preventDefault();
       setOpen(true);
       setHighlight(Math.max(0, items.findIndex((i) => i.value === String(value))));
       return;
@@ -60,26 +115,82 @@ export default function PremiumDropdown({
 
     if (!open) return;
 
-    if (e.key === 'ArrowDown') {
-      e.preventDefault();
+    if (event.key === 'ArrowDown') {
+      event.preventDefault();
       setHighlight((prev) => (prev + 1) % items.length);
-    } else if (e.key === 'ArrowUp') {
-      e.preventDefault();
+    } else if (event.key === 'ArrowUp') {
+      event.preventDefault();
       setHighlight((prev) => (prev - 1 + items.length) % items.length);
-    } else if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
+    } else if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
       if (highlight >= 0) selectItem(items[highlight].value);
-    } else if (e.key === 'Home') {
-      e.preventDefault();
+    } else if (event.key === 'Home') {
+      event.preventDefault();
       setHighlight(0);
-    } else if (e.key === 'End') {
-      e.preventDefault();
+    } else if (event.key === 'End') {
+      event.preventDefault();
       setHighlight(items.length - 1);
     }
   };
 
+  const menuStyle = menuPosition
+    ? {
+        ...(menuPosition.top != null ? { top: menuPosition.top } : {}),
+        ...(menuPosition.bottom != null ? { bottom: menuPosition.bottom } : {}),
+        left: menuPosition.left,
+        width: menuPosition.width,
+        '--menu-max-height': `${menuPosition.maxHeight}px`,
+      }
+    : undefined;
+
+  const menu = (
+    <div
+      ref={menuRef}
+      className="premium-dropdown__menu is-open is-portal"
+      role="listbox"
+      id={listId}
+      aria-labelledby={`${listId}-label`}
+      tabIndex={-1}
+      style={menuStyle}
+      onKeyDown={onKeyDown}
+    >
+      <ul>
+        {items.map((item, index) => {
+          const isSelected = item.value === String(value);
+          const isHighlighted = index === highlight;
+
+          return (
+            <li key={item.value || '__all'} role="presentation">
+              <button
+                type="button"
+                role="option"
+                aria-selected={isSelected}
+                className={[
+                  'premium-dropdown__option',
+                  isSelected && 'is-selected',
+                  isHighlighted && 'is-highlighted',
+                ]
+                  .filter(Boolean)
+                  .join(' ')}
+                onMouseEnter={() => setHighlight(index)}
+                onClick={() => selectItem(item.value)}
+              >
+                {item.label}
+                {isSelected && (
+                  <span className="premium-dropdown__check" aria-hidden="true">
+                    ✓
+                  </span>
+                )}
+              </button>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  );
+
   return (
-    <div className="premium-dropdown" ref={rootRef}>
+    <div className={`premium-dropdown ${open ? 'is-open' : ''}`} ref={rootRef}>
       <span className="premium-dropdown__label" id={`${listId}-label`}>
         {icon}
         {label}
@@ -110,48 +221,7 @@ export default function PremiumDropdown({
         <span className="premium-dropdown__trigger-shine" aria-hidden="true" />
       </button>
 
-      <div
-        className={`premium-dropdown__menu ${open ? 'is-open' : ''}`}
-        role="listbox"
-        id={listId}
-        aria-labelledby={`${listId}-label`}
-        aria-hidden={!open}
-        tabIndex={-1}
-        onKeyDown={onKeyDown}
-      >
-        <ul>
-          {items.map((item, index) => {
-            const isSelected = item.value === String(value);
-            const isHighlighted = index === highlight;
-
-            return (
-              <li key={item.value || '__all'} role="presentation">
-                <button
-                  type="button"
-                  role="option"
-                  aria-selected={isSelected}
-                  className={[
-                    'premium-dropdown__option',
-                    isSelected && 'is-selected',
-                    isHighlighted && 'is-highlighted',
-                  ]
-                    .filter(Boolean)
-                    .join(' ')}
-                  onMouseEnter={() => setHighlight(index)}
-                  onClick={() => selectItem(item.value)}
-                >
-                  {item.label}
-                  {isSelected && (
-                    <span className="premium-dropdown__check" aria-hidden="true">
-                      ✓
-                    </span>
-                  )}
-                </button>
-              </li>
-            );
-          })}
-        </ul>
-      </div>
+      {open && menuPosition && createPortal(menu, document.body)}
     </div>
   );
 }

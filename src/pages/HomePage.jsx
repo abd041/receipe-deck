@@ -1,5 +1,6 @@
 import recipes from '../data/recipes.json';
-import useFavorites from '../hooks/useFavorites';
+import useFavorites from '../contexts/FavoritesContext';
+import DocumentTitle from '../components/DocumentTitle';
 import useRecipeFilters from '../hooks/useRecipeFilters';
 import Hero from '../components/Hero';
 import FeaturedRecipe from '../components/FeaturedRecipe';
@@ -28,6 +29,7 @@ export default function HomePage() {
 
   return (
     <div className="home-page">
+      <DocumentTitle title="Browse Recipes" />
       <Hero recipeCount={recipes.length} />
 
       <div className="home-page__flow">

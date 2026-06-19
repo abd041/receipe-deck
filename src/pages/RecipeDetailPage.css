@@ -102,6 +102,16 @@
   border-radius: 999px;
 }
 
+.recipe-detail__back:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(107, 142, 35, 0.2);
+}
+
+.recipe-detail__tabs button:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(107, 142, 35, 0.2);
+}
+
 .recipe-detail__tabs button {
   padding: 0.6rem 1.15rem;
   border-radius: 999px;
@@ -178,5 +188,9 @@
 
   .recipe-detail__tabs--mobile {
     display: inline-flex;
+  }
+
+  .recipe-detail__tabs button {
+    min-height: 44px;
   }
 }

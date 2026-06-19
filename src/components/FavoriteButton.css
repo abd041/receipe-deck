@@ -1,6 +1,6 @@
 .favorite-btn {
-  width: 2.6rem;
-  height: 2.6rem;
+  width: 2.75rem;
+  height: 2.75rem;
   border-radius: 999px;
   display: grid;
   place-items: center;
@@ -12,11 +12,17 @@
     0 2px 8px rgba(31, 31, 31, 0.1),
     0 1px 0 rgba(255, 255, 255, 0.7) inset;
   transition:
-    transform 0.45s var(--ease-spring),
-    color 0.35s ease,
-    background 0.35s ease,
-    box-shadow 0.35s ease;
-  will-change: transform;
+    transform var(--duration-normal) var(--ease-spring),
+    color var(--duration-normal) ease,
+    background var(--duration-normal) ease,
+    box-shadow var(--duration-normal) ease;
+}
+
+.favorite-btn:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 3px rgba(107, 142, 35, 0.2),
+    var(--shadow-sm);
 }
 
 .favorite-btn svg {

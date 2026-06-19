@@ -95,6 +95,12 @@
   opacity: 1;
 }
 
+.site-header__brand:focus-visible {
+  outline: none;
+  border-radius: var(--radius-md);
+  box-shadow: 0 0 0 3px rgba(107, 142, 35, 0.2);
+}
+
 .site-header__nav {
   display: flex;
   align-items: center;
@@ -131,6 +137,11 @@
   box-shadow: var(--shadow-xs);
 }
 
+.site-header__nav a:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(107, 142, 35, 0.2);
+}
+
 .site-header__badge {
   margin-left: 0.35rem;
   min-width: 1.2rem;
@@ -156,7 +167,10 @@
   }
 
   .site-header__nav a {
-    padding: 0.5rem 0.85rem;
+    padding: 0.55rem 0.95rem;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
     font-size: 0.82rem;
   }
 }

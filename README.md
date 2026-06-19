@@ -43,8 +43,9 @@ receipe-deck/
 ├── public/images/          # Recipe images extracted from dataset
 ├── src/
 │   ├── components/         # UI components
+│   ├── contexts/           # Shared app state (favorites)
 │   ├── data/recipes.json   # Recipe dataset
-│   ├── hooks/              # Favorites + filter logic
+│   ├── hooks/              # Filters, scroll, media queries
 │   └── pages/              # Browse, detail, favorites
 ├── scripts/extract-recipes.mjs
 └── Recipes dataset and images (1).xlsx
@@ -83,9 +84,9 @@ npm run extract-data
 3. Build command: `npm run build`
 4. Publish directory: `dist`
 
-## Client Assets
+For client-side routing, `public/_redirects` (Netlify) and `vercel.json` (Vercel) are included.
 
-Design references included in the project root:
+## Client Assets
 
 - `Brand_Color_Reference.webp`
 - `Moodboard.webp`

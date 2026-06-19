@@ -13,6 +13,7 @@ export default function PremiumDropdown({
   const [open, setOpen] = useState(false);
   const [highlight, setHighlight] = useState(-1);
   const rootRef = useRef(null);
+  const triggerRef = useRef(null);
   const listId = useId();
 
   const items = [
@@ -46,6 +47,7 @@ export default function PremiumDropdown({
   const onKeyDown = (e) => {
     if (e.key === 'Escape') {
       setOpen(false);
+      triggerRef.current?.focus();
       return;
     }
 
@@ -85,6 +87,7 @@ export default function PremiumDropdown({
 
       <button
         type="button"
+        ref={triggerRef}
         className={`premium-dropdown__trigger ${value ? 'has-value' : ''} ${open ? 'is-open' : ''}`}
         aria-haspopup="listbox"
         aria-expanded={open}
@@ -112,6 +115,7 @@ export default function PremiumDropdown({
         role="listbox"
         id={listId}
         aria-labelledby={`${listId}-label`}
+        aria-hidden={!open}
         tabIndex={-1}
         onKeyDown={onKeyDown}
       >

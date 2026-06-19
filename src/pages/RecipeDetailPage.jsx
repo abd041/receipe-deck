@@ -1,7 +1,9 @@
-import { useMemo, useState } from 'react';
+import { useId, useMemo, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import recipes from '../data/recipes.json';
-import useFavorites from '../hooks/useFavorites';
+import useFavorites from '../contexts/FavoritesContext';
+import useMediaQuery from '../hooks/useMediaQuery';
+import DocumentTitle from '../components/DocumentTitle';
 import FavoriteButton from '../components/FavoriteButton';
 import './RecipeDetailPage.css';
 
@@ -9,12 +11,19 @@ export default function RecipeDetailPage() {
   const { id } = useParams();
   const { isFavorite, toggleFavorite } = useFavorites();
   const [activeTab, setActiveTab] = useState('ingredients');
+  const isMobileLayout = useMediaQuery('(max-width: 900px)');
+  const tabListId = useId();
+  const ingredientsPanelId = `${tabListId}-ingredients-panel`;
+  const instructionsPanelId = `${tabListId}-instructions-panel`;
+  const ingredientsTabId = `${tabListId}-ingredients-tab`;
+  const instructionsTabId = `${tabListId}-instructions-tab`;
 
   const recipe = useMemo(() => recipes.find((item) => item.id === id), [id]);
 
   if (!recipe) {
     return (
       <div className="empty-state">
+        <DocumentTitle title="Recipe Not Found" />
         <h2>Recipe not found</h2>
         <p>The recipe card you are looking for is not in the deck.</p>
         <Link to="/" className="btn btn-primary">
@@ -26,6 +35,7 @@ export default function RecipeDetailPage() {
 
   return (
     <article className="recipe-detail">
+      <DocumentTitle title={recipe.name} />
       <Link to="/" className="recipe-detail__back">
         ← Back to recipe box
       </Link>
@@ -59,11 +69,17 @@ export default function RecipeDetailPage() {
             {recipe.cookTime} min cook · Serves {recipe.servings} · {recipe.mealType}
           </p>
 
-          <div className="recipe-detail__tabs recipe-detail__tabs--mobile" role="tablist">
+          <div
+            className="recipe-detail__tabs recipe-detail__tabs--mobile"
+            role="tablist"
+            aria-label="Recipe details"
+          >
             <button
               type="button"
               role="tab"
+              id={ingredientsTabId}
               aria-selected={activeTab === 'ingredients'}
+              aria-controls={ingredientsPanelId}
               className={activeTab === 'ingredients' ? 'active' : ''}
               onClick={() => setActiveTab('ingredients')}
             >
@@ -72,7 +88,9 @@ export default function RecipeDetailPage() {
             <button
               type="button"
               role="tab"
+              id={instructionsTabId}
               aria-selected={activeTab === 'instructions'}
+              aria-controls={instructionsPanelId}
               className={activeTab === 'instructions' ? 'active' : ''}
               onClick={() => setActiveTab('instructions')}
             >
@@ -80,39 +98,54 @@ export default function RecipeDetailPage() {
             </button>
           </div>
 
-          <div className="recipe-detail__columns">
-            <section className="recipe-detail__column">
-              <h2>Ingredients</h2>
+          <div className="recipe-detail__columns" aria-hidden={isMobileLayout}>
+            <section className="recipe-detail__column" aria-labelledby={`${tabListId}-ingredients-heading`}>
+              <h2 id={`${tabListId}-ingredients-heading`}>Ingredients</h2>
               <ul className="recipe-detail__ingredients">
-                {recipe.ingredients.map((item) => (
-                  <li key={item}>{item}</li>
+                {recipe.ingredients.map((item, index) => (
+                  <li key={`${recipe.id}-ingredient-${index}`}>{item}</li>
                 ))}
               </ul>
             </section>
 
-            <section className="recipe-detail__column">
-              <h2>Instructions</h2>
+            <section className="recipe-detail__column" aria-labelledby={`${tabListId}-instructions-heading`}>
+              <h2 id={`${tabListId}-instructions-heading`}>Instructions</h2>
               <ol className="recipe-detail__instructions">
-                {recipe.instructions.map((step) => (
-                  <li key={step}>{step}</li>
+                {recipe.instructions.map((step, index) => (
+                  <li key={`${recipe.id}-step-${index}`}>{step}</li>
                 ))}
               </ol>
             </section>
           </div>
 
-          <div className="recipe-detail__panel recipe-detail__panel--mobile">
+          <div
+            className="recipe-detail__panel recipe-detail__panel--mobile"
+            aria-hidden={!isMobileLayout}
+          >
             {activeTab === 'ingredients' ? (
-              <ul className="recipe-detail__ingredients">
-                {recipe.ingredients.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
+              <div
+                role="tabpanel"
+                id={ingredientsPanelId}
+                aria-labelledby={ingredientsTabId}
+              >
+                <ul className="recipe-detail__ingredients">
+                  {recipe.ingredients.map((item, index) => (
+                    <li key={`${recipe.id}-mobile-ingredient-${index}`}>{item}</li>
+                  ))}
+                </ul>
+              </div>
             ) : (
-              <ol className="recipe-detail__instructions">
-                {recipe.instructions.map((step) => (
-                  <li key={step}>{step}</li>
-                ))}
-              </ol>
+              <div
+                role="tabpanel"
+                id={instructionsPanelId}
+                aria-labelledby={instructionsTabId}
+              >
+                <ol className="recipe-detail__instructions">
+                  {recipe.instructions.map((step, index) => (
+                    <li key={`${recipe.id}-mobile-step-${index}`}>{step}</li>
+                  ))}
+                </ol>
+              </div>
             )}
           </div>
 

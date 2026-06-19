@@ -1,5 +1,5 @@
 import { Link, NavLink } from 'react-router-dom';
-import useFavorites from '../hooks/useFavorites';
+import useFavorites from '../contexts/FavoritesContext';
 import useScrolled from '../hooks/useScrolled';
 import './Header.css';
 

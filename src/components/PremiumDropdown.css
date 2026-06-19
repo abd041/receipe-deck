@@ -183,6 +183,12 @@
   font-weight: 700;
 }
 
+@media (max-width: 768px) {
+  .premium-dropdown__trigger {
+    min-height: 44px;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .premium-dropdown__trigger,
   .premium-dropdown__menu,

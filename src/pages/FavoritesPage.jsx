@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import recipes from '../data/recipes.json';
-import useFavorites from '../hooks/useFavorites';
+import useFavorites from '../contexts/FavoritesContext';
+import DocumentTitle from '../components/DocumentTitle';
 import RecipeGrid from '../components/RecipeGrid';
 
 export default function FavoritesPage() {
@@ -10,6 +11,7 @@ export default function FavoritesPage() {
 
   return (
     <>
+      <DocumentTitle title="Saved Favorites" />
       <header className="page-header">
         <h1>Saved favorites</h1>
         <p>Recipes you have saved to your local recipe box.</p>

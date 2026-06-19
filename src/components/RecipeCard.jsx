@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from 'react';
+import { memo, useCallback, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import FavoriteButton from './FavoriteButton';
 import { ChefHatIcon, ClockIcon, LeafIcon } from './Icons';
@@ -13,7 +13,7 @@ function MetaItem({ icon, label }) {
   );
 }
 
-export default function RecipeCard({
+function RecipeCard({
   recipe,
   isFavorite,
   onToggleFavorite,
@@ -65,7 +65,7 @@ export default function RecipeCard({
       {!isExpanded ? (
         <div className="recipe-card__flip">
           <div className="recipe-card__inner">
-            <div className="recipe-card__face recipe-card__front">
+            <div className="recipe-card__face recipe-card__front" aria-hidden={isFlipped}>
               <div
                 className="recipe-card__media"
                 onMouseMove={handleParallax}
@@ -80,7 +80,7 @@ export default function RecipeCard({
                   <div className="recipe-card__image-parallax" ref={imageRef}>
                     <img src={recipe.image} alt={recipe.name} loading="lazy" />
                   </div>
-                  <div className="recipe-card__image-overlay" />
+                  <div className="recipe-card__image-overlay" aria-hidden="true" />
                   <span className="recipe-card__category">{recipe.mealType}</span>
                 </button>
                 <div className="recipe-card__favorite">
@@ -112,11 +112,11 @@ export default function RecipeCard({
               </div>
             </div>
 
-            <div className="recipe-card__face recipe-card__back">
+            <div className="recipe-card__face recipe-card__back" aria-hidden={!isFlipped}>
               <h3>Ingredients</h3>
               <ul>
-                {recipe.ingredients.slice(0, 6).map((item) => (
-                  <li key={item}>{item}</li>
+                {recipe.ingredients.slice(0, 6).map((item, index) => (
+                  <li key={`${recipe.id}-back-${index}`}>{item}</li>
                 ))}
                 {recipe.ingredients.length > 6 && (
                   <li className="recipe-card__more">+{recipe.ingredients.length - 6} more</li>
@@ -140,7 +140,7 @@ export default function RecipeCard({
         <div className="recipe-card__expanded">
           <div className="recipe-card__expanded-image">
             <img src={recipe.image} alt={recipe.name} />
-            <div className="recipe-card__image-overlay" />
+            <div className="recipe-card__image-overlay" aria-hidden="true" />
             <FavoriteButton
               active={isFavorite}
               onClick={() => onToggleFavorite(recipe.id)}
@@ -176,3 +176,5 @@ export default function RecipeCard({
     </article>
   );
 }
+
+export default memo(RecipeCard);

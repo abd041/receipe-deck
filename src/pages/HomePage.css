@@ -1,0 +1,45 @@
+.home-page {
+  width: 100%;
+  overflow-x: clip;
+}
+
+.home-page__flow {
+  position: relative;
+  padding-top: 1rem;
+}
+
+.home-page__flow::before {
+  content: '';
+  position: absolute;
+  top: -80px;
+  right: -10%;
+  width: 45%;
+  height: 400px;
+  background: radial-gradient(ellipse, rgba(107, 142, 35, 0.06), transparent 65%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.home-page__browse {
+  position: relative;
+  z-index: 1;
+  width: 97%;
+  margin-left: 1.5%;
+  margin-bottom: 3.5rem;
+}
+
+.home-page__grid-wrap {
+  position: relative;
+  z-index: 1;
+  width: 102%;
+  margin-left: -1%;
+  padding-bottom: 2rem;
+}
+
+@media (max-width: 900px) {
+  .home-page__browse,
+  .home-page__grid-wrap {
+    width: 100%;
+    margin-left: 0;
+  }
+}

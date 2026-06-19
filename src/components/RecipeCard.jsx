@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import FavoriteButton from './FavoriteButton';
-import { BowlIcon, ChefHatIcon, ClockIcon, LeafIcon } from './Icons';
+import { ChefHatIcon, ClockIcon, LeafIcon } from './Icons';
 import './RecipeCard.css';
 
 function MetaItem({ icon, label }) {
@@ -13,9 +13,15 @@ function MetaItem({ icon, label }) {
   );
 }
 
-export default function RecipeCard({ recipe, isFavorite, onToggleFavorite }) {
+export default function RecipeCard({
+  recipe,
+  isFavorite,
+  onToggleFavorite,
+  featured = false,
+}) {
   const [isFlipped, setIsFlipped] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
+  const imageRef = useRef(null);
 
   const handleFlip = () => {
     if (!isExpanded) setIsFlipped((prev) => !prev);
@@ -26,46 +32,83 @@ export default function RecipeCard({ recipe, isFavorite, onToggleFavorite }) {
     if (!isExpanded) setIsFlipped(false);
   };
 
+  const handleParallax = useCallback((e) => {
+    const el = imageRef.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width - 0.5) * 16;
+    const y = ((e.clientY - rect.top) / rect.height - 0.5) * 16;
+    el.style.setProperty('--px', `${x}px`);
+    el.style.setProperty('--py', `${y}px`);
+  }, []);
+
+  const resetParallax = useCallback(() => {
+    const el = imageRef.current;
+    if (!el) return;
+    el.style.setProperty('--px', '0px');
+    el.style.setProperty('--py', '0px');
+  }, []);
+
+  const cardClass = [
+    'recipe-card',
+    isFlipped && 'is-flipped',
+    isExpanded && 'is-expanded',
+    featured && 'is-featured',
+  ]
+    .filter(Boolean)
+    .join(' ');
+
   return (
-    <article
-      className={`recipe-card ${isFlipped ? 'is-flipped' : ''} ${
-        isExpanded ? 'is-expanded' : ''
-      }`}
-    >
+    <article className={cardClass}>
+      <div className="recipe-card__glow" aria-hidden="true" />
+
       {!isExpanded ? (
         <div className="recipe-card__flip">
           <div className="recipe-card__inner">
             <div className="recipe-card__face recipe-card__front">
-              <button
-                type="button"
-                className="recipe-card__image-btn"
-                onClick={handleFlip}
-                aria-label={`Flip ${recipe.name} card to see ingredients`}
+              <div
+                className="recipe-card__media"
+                onMouseMove={handleParallax}
+                onMouseLeave={resetParallax}
               >
-                <img src={recipe.image} alt={recipe.name} loading="lazy" />
-                <span className="recipe-card__meal-badge">{recipe.mealType}</span>
-              </button>
-              <div className="recipe-card__favorite">
-                <FavoriteButton
-                  active={isFavorite}
-                  onClick={() => onToggleFavorite(recipe.id)}
-                />
-              </div>
-              <div className="recipe-card__body">
-                <h3>{recipe.name}</h3>
-                <p className="recipe-card__cuisine">{recipe.cuisine}</p>
-                <div className="recipe-card__meta">
-                  <MetaItem icon={<ClockIcon />} label={`${recipe.prepTime} min`} />
-                  <MetaItem icon={<ChefHatIcon />} label={recipe.difficulty} />
+                <button
+                  type="button"
+                  className="recipe-card__image-btn"
+                  onClick={handleFlip}
+                  aria-label={`Flip ${recipe.name} card to see ingredients`}
+                >
+                  <div className="recipe-card__image-parallax" ref={imageRef}>
+                    <img src={recipe.image} alt={recipe.name} loading="lazy" />
+                  </div>
+                  <div className="recipe-card__image-overlay" />
+                  <span className="recipe-card__category">{recipe.mealType}</span>
+                </button>
+                <div className="recipe-card__favorite">
+                  <FavoriteButton
+                    active={isFavorite}
+                    onClick={() => onToggleFavorite(recipe.id)}
+                  />
                 </div>
               </div>
-              <div className="recipe-card__actions">
-                <button type="button" className="btn btn-secondary" onClick={handleFlip}>
-                  Flip card
-                </button>
-                <button type="button" className="btn btn-primary" onClick={handleExpand}>
-                  Expand
-                </button>
+
+              <div className="recipe-card__glass-footer">
+                <div className="recipe-card__body">
+                  <p className="recipe-card__cuisine">{recipe.cuisine}</p>
+                  <h3>{recipe.name}</h3>
+                  <div className="recipe-card__meta">
+                    <MetaItem icon={<ClockIcon size={14} />} label={`${recipe.prepTime} min`} />
+                    <MetaItem icon={<ChefHatIcon size={14} />} label={recipe.difficulty} />
+                  </div>
+                </div>
+                <div className="recipe-card__actions">
+                  <button type="button" className="btn btn-ghost btn-sm" onClick={handleFlip}>
+                    Flip
+                  </button>
+                  <button type="button" className="btn btn-primary btn-sm btn-shine" onClick={handleExpand}>
+                    Expand
+                    <span className="btn__arrow" aria-hidden="true">↗</span>
+                  </button>
+                </div>
               </div>
             </div>
 
@@ -76,19 +119,17 @@ export default function RecipeCard({ recipe, isFavorite, onToggleFavorite }) {
                   <li key={item}>{item}</li>
                 ))}
                 {recipe.ingredients.length > 6 && (
-                  <li className="recipe-card__more">
-                    +{recipe.ingredients.length - 6} more
-                  </li>
+                  <li className="recipe-card__more">+{recipe.ingredients.length - 6} more</li>
                 )}
               </ul>
               <div className="recipe-card__leaf" aria-hidden="true">
                 <LeafIcon />
               </div>
-              <div className="recipe-card__actions">
-                <button type="button" className="btn btn-secondary" onClick={handleFlip}>
-                  Flip back
+              <div className="recipe-card__actions recipe-card__actions--back">
+                <button type="button" className="btn btn-ghost btn-sm" onClick={handleFlip}>
+                  Back
                 </button>
-                <Link to={`/recipe/${recipe.id}`} className="btn btn-primary">
+                <Link to={`/recipe/${recipe.id}`} className="btn btn-primary btn-sm btn-shine">
                   View recipe
                 </Link>
               </div>
@@ -99,6 +140,7 @@ export default function RecipeCard({ recipe, isFavorite, onToggleFavorite }) {
         <div className="recipe-card__expanded">
           <div className="recipe-card__expanded-image">
             <img src={recipe.image} alt={recipe.name} />
+            <div className="recipe-card__image-overlay" />
             <FavoriteButton
               active={isFavorite}
               onClick={() => onToggleFavorite(recipe.id)}
@@ -121,12 +163,12 @@ export default function RecipeCard({ recipe, isFavorite, onToggleFavorite }) {
             </div>
             <p>{recipe.description}</p>
             <div className="recipe-card__meta">
-              <MetaItem icon={<BowlIcon />} label={recipe.mealType} />
-              <MetaItem icon={<ClockIcon />} label={`${recipe.prepTime} min prep`} />
-              <MetaItem icon={<ChefHatIcon />} label={recipe.difficulty} />
+              <MetaItem icon={<ClockIcon size={14} />} label={`${recipe.prepTime} min`} />
+              <MetaItem icon={<ChefHatIcon size={14} />} label={recipe.difficulty} />
             </div>
-            <Link to={`/recipe/${recipe.id}`} className="btn btn-primary">
+            <Link to={`/recipe/${recipe.id}`} className="btn btn-primary btn-shine">
               View Recipe
+              <span className="btn__arrow" aria-hidden="true">→</span>
             </Link>
           </div>
         </div>

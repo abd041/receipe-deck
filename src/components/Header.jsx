@@ -1,18 +1,21 @@
 import { Link, NavLink } from 'react-router-dom';
 import useFavorites from '../hooks/useFavorites';
+import useScrolled from '../hooks/useScrolled';
 import './Header.css';
 
 export default function Header() {
   const { favorites } = useFavorites();
+  const scrolled = useScrolled();
 
   return (
-    <header className="site-header">
+    <header className={`site-header ${scrolled ? 'is-scrolled' : ''}`}>
       <div className="site-header__inner">
         <Link to="/" className="site-header__brand">
           <span className="site-header__logo" aria-hidden="true">
-            RD
+            <span className="site-header__logo-mark">RD</span>
+            <span className="site-header__logo-ring" />
           </span>
-          <span>
+          <span className="site-header__brand-text">
             <strong>RecipeDeck</strong>
             <small>Interactive recipe cards</small>
           </span>

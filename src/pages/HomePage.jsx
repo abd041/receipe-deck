@@ -2,10 +2,15 @@ import recipes from '../data/recipes.json';
 import useFavorites from '../hooks/useFavorites';
 import useRecipeFilters from '../hooks/useRecipeFilters';
 import Hero from '../components/Hero';
+import FeaturedRecipe from '../components/FeaturedRecipe';
+import HowItWorks from '../components/HowItWorks';
+import SectionDivider from '../components/SectionDivider';
 import SearchBar from '../components/SearchBar';
 import FilterBar from '../components/FilterBar';
 import FilterChips from '../components/FilterChips';
 import RecipeGrid from '../components/RecipeGrid';
+import Reveal from '../components/Reveal';
+import './HomePage.css';
 
 export default function HomePage() {
   const { isFavorite, toggleFavorite } = useFavorites();
@@ -22,38 +27,57 @@ export default function HomePage() {
   } = useRecipeFilters(recipes);
 
   return (
-    <>
+    <div className="home-page">
       <Hero recipeCount={recipes.length} />
 
-      <section className="browse-section" aria-label="Browse recipes">
-        <div className="browse-section__header">
-          <h2>Browse the deck</h2>
-          <p className="results-count" aria-live="polite">
-            Showing {filteredRecipes.length} of {recipes.length} recipes
-          </p>
+      <div className="home-page__flow">
+        <FeaturedRecipe />
+        <HowItWorks />
+        <SectionDivider />
+
+        <section id="browse" className="browse-section home-page__browse" aria-label="Browse recipes">
+          <Reveal>
+            <div className="browse-section__panel">
+              <div className="browse-section__header">
+                <div>
+                  <span className="browse-section__eyebrow">The collection</span>
+                  <h2>
+                    Find your next
+                    <br />
+                    favorite card
+                  </h2>
+                </div>
+                <p className="results-count" aria-live="polite">
+                  {filteredRecipes.length} of {recipes.length}
+                </p>
+              </div>
+
+              <SearchBar value={search} onChange={setSearch} />
+              <FilterBar
+                filters={filters}
+                options={options}
+                onChange={updateFilter}
+                onClear={clearFilters}
+                activeCount={activeFilterCount}
+              />
+              <FilterChips
+                search={search}
+                filters={filters}
+                onRemoveSearch={() => removeFilter('search')}
+                onRemoveFilter={removeFilter}
+              />
+            </div>
+          </Reveal>
+        </section>
+
+        <div className="home-page__grid-wrap">
+          <RecipeGrid
+            recipes={filteredRecipes}
+            isFavorite={isFavorite}
+            onToggleFavorite={toggleFavorite}
+          />
         </div>
-
-        <SearchBar value={search} onChange={setSearch} />
-        <FilterBar
-          filters={filters}
-          options={options}
-          onChange={updateFilter}
-          onClear={clearFilters}
-          activeCount={activeFilterCount}
-        />
-        <FilterChips
-          search={search}
-          filters={filters}
-          onRemoveSearch={() => removeFilter('search')}
-          onRemoveFilter={removeFilter}
-        />
-      </section>
-
-      <RecipeGrid
-        recipes={filteredRecipes}
-        isFavorite={isFavorite}
-        onToggleFavorite={toggleFavorite}
-      />
-    </>
+      </div>
+    </div>
   );
 }

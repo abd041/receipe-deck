@@ -1,28 +1,50 @@
 .filter-chips {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-top: 0.85rem;
+  gap: 0.55rem;
+  margin-top: 1.15rem;
 }
 
 .filter-chip {
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
-  padding: 0.45rem 0.75rem;
+  gap: 0.5rem;
+  padding: 0.55rem 1rem;
   border-radius: 999px;
-  background: var(--color-olive);
+  background: linear-gradient(145deg, var(--color-olive-light), var(--color-olive));
   color: var(--color-white);
-  font-size: 0.82rem;
+  font-size: 0.8rem;
   font-weight: 600;
-  transition: background 0.2s;
+  letter-spacing: -0.01em;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.2) inset,
+    0 4px 14px rgba(107, 142, 35, 0.28);
+  transition:
+    transform 0.4s var(--ease-out-expo),
+    box-shadow 0.4s var(--ease-out-expo),
+    opacity 0.3s ease;
+  will-change: transform;
 }
 
 .filter-chip:hover {
-  background: var(--color-olive-dark);
+  transform: translate3d(0, -3px, 0) scale(1.03);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.25) inset,
+    0 8px 20px rgba(107, 142, 35, 0.35);
+}
+
+.filter-chip:active {
+  transform: scale(0.96);
+  opacity: 0.9;
 }
 
 .filter-chip span {
-  font-size: 1rem;
+  font-size: 1.1rem;
   line-height: 1;
+  opacity: 0.9;
+  transition: transform 0.3s var(--ease-out-expo);
+}
+
+.filter-chip:hover span {
+  transform: rotate(90deg);
 }

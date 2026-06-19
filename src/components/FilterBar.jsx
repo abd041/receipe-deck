@@ -1,73 +1,61 @@
+import { BowlIcon, ChefHatIcon, ClockIcon } from './Icons';
+import PremiumDropdown from './PremiumDropdown';
 import './FilterBar.css';
 
+const FILTER_ICONS = {
+  cuisine: <BowlIcon size={15} />,
+  difficulty: <ChefHatIcon size={15} />,
+  mealType: <BowlIcon size={15} />,
+  maxPrepTime: <ClockIcon size={15} />,
+};
+
 export default function FilterBar({ filters, options, onChange, onClear, activeCount }) {
+  const fields = [
+    { key: 'cuisine', label: 'Cuisine', placeholder: 'All cuisines', options: options.cuisines },
+    {
+      key: 'difficulty',
+      label: 'Difficulty',
+      placeholder: 'All levels',
+      options: options.difficulties,
+    },
+    {
+      key: 'mealType',
+      label: 'Meal type',
+      placeholder: 'All meals',
+      options: options.mealTypes,
+    },
+    {
+      key: 'maxPrepTime',
+      label: 'Max prep time',
+      placeholder: 'Any time',
+      options: options.prepTimes,
+      format: (v) => `Up to ${v} min`,
+    },
+  ];
+
   return (
     <section className="filter-bar" aria-label="Recipe filters">
       <div className="filter-bar__controls">
-        <label>
-          <span>Cuisine</span>
-          <select
-            value={filters.cuisine}
-            onChange={(e) => onChange('cuisine', e.target.value)}
-          >
-            <option value="">All cuisines</option>
-            {options.cuisines.map((item) => (
-              <option key={item} value={item}>
-                {item}
-              </option>
-            ))}
-          </select>
-        </label>
-
-        <label>
-          <span>Difficulty</span>
-          <select
-            value={filters.difficulty}
-            onChange={(e) => onChange('difficulty', e.target.value)}
-          >
-            <option value="">All levels</option>
-            {options.difficulties.map((item) => (
-              <option key={item} value={item}>
-                {item}
-              </option>
-            ))}
-          </select>
-        </label>
-
-        <label>
-          <span>Meal type</span>
-          <select
-            value={filters.mealType}
-            onChange={(e) => onChange('mealType', e.target.value)}
-          >
-            <option value="">All meals</option>
-            {options.mealTypes.map((item) => (
-              <option key={item} value={item}>
-                {item}
-              </option>
-            ))}
-          </select>
-        </label>
-
-        <label>
-          <span>Max prep time</span>
-          <select
-            value={filters.maxPrepTime}
-            onChange={(e) => onChange('maxPrepTime', e.target.value)}
-          >
-            <option value="">Any time</option>
-            {options.prepTimes.map((item) => (
-              <option key={item} value={item}>
-                Up to {item} min
-              </option>
-            ))}
-          </select>
-        </label>
+        {fields.map(({ key, label, placeholder, options: opts, format }) => (
+          <PremiumDropdown
+            key={key}
+            label={label}
+            icon={FILTER_ICONS[key]}
+            value={filters[key]}
+            placeholder={placeholder}
+            options={opts}
+            formatOption={format}
+            onChange={(val) => onChange(key, val)}
+          />
+        ))}
       </div>
 
       {activeCount > 0 && (
         <div className="filter-bar__active">
-          <p>{activeCount} filter{activeCount > 1 ? 's' : ''} active</p>
+          <p>
+            <span className="filter-bar__dot" />
+            {activeCount} filter{activeCount > 1 ? 's' : ''} active
+          </p>
           <button type="button" className="filter-bar__clear" onClick={onClear}>
             Clear all
           </button>

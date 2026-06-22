@@ -2,7 +2,7 @@
   position: relative;
   width: 100vw;
   margin-left: calc(50% - 50vw);
-  min-height: 90vh;
+  min-height: 72vh;
   display: flex;
   align-items: center;
   overflow: visible;

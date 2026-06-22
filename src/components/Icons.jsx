@@ -51,3 +51,24 @@ export function LeafIcon({ size = 20 }) {
     </svg>
   );
 }
+
+export function UsersIcon({ size = 16 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <circle cx="9" cy="8" r="3" stroke="currentColor" strokeWidth="1.8" />
+      <path
+        d="M4 18c0-2.8 2.2-5 5-5s5 2.2 5 5"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+      />
+      <circle cx="17" cy="9" r="2.2" stroke="currentColor" strokeWidth="1.6" />
+      <path
+        d="M15.5 18c.3-1.8 1.6-3 3.5-3 1.2 0 2.2.5 2.8 1.3"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}

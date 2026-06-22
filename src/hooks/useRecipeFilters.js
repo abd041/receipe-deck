@@ -1,5 +1,7 @@
 import { useMemo, useState } from 'react';
 
+export const PREP_TIME_BUCKETS = [10, 15, 20, 25, 30, 35, 40];
+
 const INITIAL_FILTERS = {
   cuisine: '',
   difficulty: '',
@@ -27,7 +29,7 @@ export function getFilterOptions(recipes) {
     cuisines: unique('cuisine'),
     difficulties: unique('difficulty'),
     mealTypes: unique('mealType'),
-    prepTimes: [...new Set(recipes.map((r) => r.prepTime))].sort((a, b) => a - b),
+    prepTimes: PREP_TIME_BUCKETS,
   };
 }
 

@@ -1,7 +1,7 @@
 import { memo, useCallback, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import FavoriteButton from './FavoriteButton';
-import { ChefHatIcon, ClockIcon, LeafIcon } from './Icons';
+import { ChefHatIcon, ClockIcon, LeafIcon, UsersIcon } from './Icons';
 import './RecipeCard.css';
 
 function MetaItem({ icon, label }) {
@@ -22,14 +22,23 @@ function RecipeCard({
   const [isFlipped, setIsFlipped] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const imageRef = useRef(null);
+  const cardRef = useRef(null);
 
   const handleFlip = () => {
     if (!isExpanded) setIsFlipped((prev) => !prev);
   };
 
   const handleExpand = () => {
-    setIsExpanded((prev) => !prev);
-    if (!isExpanded) setIsFlipped(false);
+    setIsExpanded((prev) => {
+      const next = !prev;
+      if (next) {
+        setIsFlipped(false);
+        requestAnimationFrame(() => {
+          cardRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        });
+      }
+      return next;
+    });
   };
 
   const handleParallax = useCallback((e) => {
@@ -58,8 +67,10 @@ function RecipeCard({
     .filter(Boolean)
     .join(' ');
 
+  const previewIngredients = recipe.ingredients.slice(0, 5);
+
   return (
-    <article className={cardClass}>
+    <article className={cardClass} ref={cardRef}>
       <div className="recipe-card__glow" aria-hidden="true" />
 
       {!isExpanded ? (
@@ -141,6 +152,7 @@ function RecipeCard({
           <div className="recipe-card__expanded-image">
             <img src={recipe.image} alt={recipe.name} />
             <div className="recipe-card__image-overlay" aria-hidden="true" />
+            <span className="recipe-card__preview-badge">Recipe preview</span>
             <FavoriteButton
               active={isFavorite}
               onClick={() => onToggleFavorite(recipe.id)}
@@ -161,15 +173,40 @@ function RecipeCard({
                 ×
               </button>
             </div>
-            <p>{recipe.description}</p>
-            <div className="recipe-card__meta">
-              <MetaItem icon={<ClockIcon size={14} />} label={`${recipe.prepTime} min`} />
+
+            <p className="recipe-card__expanded-description">{recipe.description}</p>
+
+            <div className="recipe-card__expanded-facts">
+              <MetaItem icon={<ClockIcon size={14} />} label={`${recipe.prepTime} min prep`} />
+              <MetaItem icon={<ClockIcon size={14} />} label={`${recipe.cookTime} min cook`} />
+              <MetaItem icon={<UsersIcon size={14} />} label={`Serves ${recipe.servings}`} />
               <MetaItem icon={<ChefHatIcon size={14} />} label={recipe.difficulty} />
+              <span className="recipe-card__meta-item">{recipe.mealType}</span>
             </div>
-            <Link to={`/recipe/${recipe.id}`} className="btn btn-primary btn-shine">
-              View Recipe
-              <span className="btn__arrow" aria-hidden="true">→</span>
-            </Link>
+
+            <div className="recipe-card__expanded-ingredients">
+              <h4>Key ingredients</h4>
+              <ul>
+                {previewIngredients.map((item, index) => (
+                  <li key={`${recipe.id}-preview-${index}`}>{item}</li>
+                ))}
+                {recipe.ingredients.length > previewIngredients.length && (
+                  <li className="recipe-card__more">
+                    +{recipe.ingredients.length - previewIngredients.length} more in full recipe
+                  </li>
+                )}
+              </ul>
+            </div>
+
+            <div className="recipe-card__expanded-actions">
+              <button type="button" className="btn btn-ghost" onClick={handleExpand}>
+                Collapse
+              </button>
+              <Link to={`/recipe/${recipe.id}`} className="btn btn-primary btn-shine">
+                View Recipe
+                <span className="btn__arrow" aria-hidden="true">→</span>
+              </Link>
+            </div>
           </div>
         </div>
       )}

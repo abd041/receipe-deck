@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "extract-data": "node scripts/extract-recipes.mjs"
+    "extract-data": "node scripts/extract-recipes.mjs",
+    "count-recipes": "node scripts/count-recipes.mjs"
   },
   "dependencies": {
     "react": "^18.3.1",

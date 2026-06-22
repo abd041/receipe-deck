@@ -5,7 +5,7 @@ const LABELS = {
   cuisine: 'Cuisine',
   difficulty: 'Difficulty',
   mealType: 'Meal',
-  maxPrepTime: 'Prep time',
+  maxPrepTime: 'Preparation time',
 };
 
 export default function FilterChips({ search, filters, onRemoveSearch, onRemoveFilter }) {

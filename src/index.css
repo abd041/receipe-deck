@@ -434,6 +434,14 @@ a {
   text-transform: uppercase;
 }
 
+.browse-section__lead {
+  margin: 0.75rem 0 0;
+  max-width: 36rem;
+  color: var(--color-muted);
+  font-size: 0.98rem;
+  line-height: 1.65;
+}
+
 .browse-section h2 {
   margin: 0;
   font-family: var(--font-heading);

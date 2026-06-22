@@ -131,7 +131,7 @@ async function main() {
     fs.writeFileSync(path.join(imagesDir, filename), entry.getData());
   });
 
-  const dataRows = rows.slice(1);
+  const dataRows = rows.slice(1).filter((row) => row.A?.trim());
   const recipes = dataRows.map((row, index) => {
     const name = row.A || `Recipe ${index + 1}`;
     const id = slugify(name);

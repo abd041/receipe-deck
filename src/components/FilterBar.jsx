@@ -5,8 +5,8 @@ import './FilterBar.css';
 const FILTER_ICONS = {
   cuisine: <BowlIcon size={15} />,
   difficulty: <ChefHatIcon size={15} />,
-  mealType: <BowlIcon size={15} />,
   maxPrepTime: <ClockIcon size={15} />,
+  mealType: <BowlIcon size={15} />,
 };
 
 export default function FilterBar({ filters, options, onChange, onClear, activeCount }) {
@@ -19,17 +19,17 @@ export default function FilterBar({ filters, options, onChange, onClear, activeC
       options: options.difficulties,
     },
     {
+      key: 'maxPrepTime',
+      label: 'Preparation time',
+      placeholder: 'Any time',
+      options: options.prepTimes,
+      format: (v) => `Up to ${v} min`,
+    },
+    {
       key: 'mealType',
       label: 'Meal type',
       placeholder: 'All meals',
       options: options.mealTypes,
-    },
-    {
-      key: 'maxPrepTime',
-      label: 'Max prep time',
-      placeholder: 'Any time',
-      options: options.prepTimes,
-      format: (v) => `Up to ${v} min`,
     },
   ];
 

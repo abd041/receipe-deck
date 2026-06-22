@@ -33,21 +33,18 @@ export default function HomePage() {
       <Hero recipeCount={recipes.length} />
 
       <div className="home-page__flow">
-        <FeaturedRecipe />
-        <HowItWorks />
-        <SectionDivider />
-
         <section id="browse" className="browse-section home-page__browse" aria-label="Browse recipes">
           <Reveal>
             <div className="browse-section__panel">
               <div className="browse-section__header">
                 <div>
-                  <span className="browse-section__eyebrow">The collection</span>
+                  <span className="browse-section__eyebrow">Recipe card collection</span>
                   <h2>
-                    Find your next
-                    <br />
-                    favorite card
+                    Browse the full deck
                   </h2>
+                  <p className="browse-section__lead">
+                    All {recipes.length} recipes from your dataset — flip, expand, and save favorites.
+                  </p>
                 </div>
                 <p className="results-count" aria-live="polite">
                   {filteredRecipes.length} of {recipes.length}
@@ -79,6 +76,11 @@ export default function HomePage() {
             onToggleFavorite={toggleFavorite}
           />
         </div>
+
+        <SectionDivider />
+
+        <FeaturedRecipe />
+        <HowItWorks />
       </div>
     </div>
   );

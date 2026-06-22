@@ -1,4 +1,4 @@
-import { useId, useMemo, useState } from 'react';
+import { useId, useMemo, useRef, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import recipes from '../data/recipes.json';
 import useFavorites from '../contexts/FavoritesContext';
@@ -7,11 +7,21 @@ import DocumentTitle from '../components/DocumentTitle';
 import FavoriteButton from '../components/FavoriteButton';
 import './RecipeDetailPage.css';
 
+const FACT_FIELDS = [
+  { key: 'cuisine', label: 'Cuisine' },
+  { key: 'difficulty', label: 'Difficulty' },
+  { key: 'prepTime', label: 'Preparation time', format: (v) => `${v} min` },
+  { key: 'cookTime', label: 'Cooking time', format: (v) => `${v} min` },
+  { key: 'servings', label: 'Serving size', format: (v) => `Serves ${v}` },
+  { key: 'mealType', label: 'Meal type' },
+];
+
 export default function RecipeDetailPage() {
   const { id } = useParams();
   const { isFavorite, toggleFavorite } = useFavorites();
   const [activeTab, setActiveTab] = useState('ingredients');
   const isMobileLayout = useMediaQuery('(max-width: 900px)');
+  const instructionsRef = useRef(null);
   const tabListId = useId();
   const ingredientsPanelId = `${tabListId}-ingredients-panel`;
   const instructionsPanelId = `${tabListId}-instructions-panel`;
@@ -19,6 +29,13 @@ export default function RecipeDetailPage() {
   const instructionsTabId = `${tabListId}-instructions-tab`;
 
   const recipe = useMemo(() => recipes.find((item) => item.id === id), [id]);
+
+  const handleStartCooking = () => {
+    setActiveTab('instructions');
+    requestAnimationFrame(() => {
+      instructionsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  };
 
   if (!recipe) {
     return (
@@ -64,10 +81,14 @@ export default function RecipeDetailPage() {
 
           <p className="recipe-detail__description">{recipe.description}</p>
 
-          <p className="recipe-detail__meta">
-            {recipe.cuisine} · {recipe.difficulty} · {recipe.prepTime} min prep ·{' '}
-            {recipe.cookTime} min cook · Serves {recipe.servings} · {recipe.mealType}
-          </p>
+          <dl className="recipe-detail__facts">
+            {FACT_FIELDS.map(({ key, label, format }) => (
+              <div key={key} className="recipe-detail__fact">
+                <dt>{label}</dt>
+                <dd>{format ? format(recipe[key]) : recipe[key]}</dd>
+              </div>
+            ))}
+          </dl>
 
           <div
             className="recipe-detail__tabs recipe-detail__tabs--mobile"
@@ -108,7 +129,11 @@ export default function RecipeDetailPage() {
               </ul>
             </section>
 
-            <section className="recipe-detail__column" aria-labelledby={`${tabListId}-instructions-heading`}>
+            <section
+              ref={instructionsRef}
+              className="recipe-detail__column"
+              aria-labelledby={`${tabListId}-instructions-heading`}
+            >
               <h2 id={`${tabListId}-instructions-heading`}>Instructions</h2>
               <ol className="recipe-detail__instructions">
                 {recipe.instructions.map((step, index) => (
@@ -136,6 +161,7 @@ export default function RecipeDetailPage() {
               </div>
             ) : (
               <div
+                ref={instructionsRef}
                 role="tabpanel"
                 id={instructionsPanelId}
                 aria-labelledby={instructionsTabId}
@@ -149,7 +175,7 @@ export default function RecipeDetailPage() {
             )}
           </div>
 
-          <button type="button" className="btn btn-primary recipe-detail__cta">
+          <button type="button" className="btn btn-primary recipe-detail__cta" onClick={handleStartCooking}>
             Start Cooking
           </button>
         </div>

@@ -29,8 +29,21 @@ const STEPS = [
   },
   {
     num: '03',
+    title: 'Expand',
+    desc: 'Open a recipe preview with timing, servings, and key ingredients before viewing the full card.',
+    icon: (
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <rect x="6" y="9" width="12" height="16" rx="2" stroke="currentColor" strokeWidth="1.6" />
+        <rect x="14" y="7" width="12" height="16" rx="2" stroke="currentColor" strokeWidth="1.6" />
+        <path d="M18 14h4M18 18h4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+      </svg>
+    ),
+    accent: 'beige',
+  },
+  {
+    num: '04',
     title: 'Cook',
-    desc: 'Expand for a preview or open the full recipe with step-by-step instructions.',
+    desc: 'Open the full recipe for complete ingredients and step-by-step instructions.',
     icon: (
       <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true">
         <circle cx="16" cy="17" r="8" stroke="currentColor" strokeWidth="1.6" />
@@ -38,7 +51,7 @@ const STEPS = [
         <path d="M14 20l2 2 4-5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     ),
-    accent: 'beige',
+    accent: 'olive',
   },
 ];
 
@@ -48,7 +61,7 @@ export default function HowItWorks() {
       <Reveal className="how-it-works__header">
         <span className="how-it-works__eyebrow">How it works</span>
         <h2 id="how-it-works-title">
-          Three steps to your
+          Four steps to your
           <span className="how-it-works__gradient"> perfect plate</span>
         </h2>
       </Reveal>
